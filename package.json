@@ -4,10 +4,12 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
+    "dev:backend": "convex dev --typecheck-components",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "format": "pnpm exec prettier . --write"
+    "format": "pnpm exec prettier . --write",
+    "generate": "convex dev --once --typecheck-components"
   },
   "dependencies": {
     "@ai-sdk/openai": "^1.3.23",

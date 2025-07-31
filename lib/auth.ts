@@ -6,7 +6,6 @@ import { type GenericCtx } from "../convex/_generated/server";
 import { siteUrl } from "./config";
 
 export const createAuth = (ctx: GenericCtx) =>
-  // Configure your Better Auth instance here
   betterAuth({
     // All auth requests will be proxied through your next.js server
     baseURL: siteUrl,
@@ -16,6 +15,12 @@ export const createAuth = (ctx: GenericCtx) =>
     emailAndPassword: {
       enabled: true,
       requireEmailVerification: false
+    },
+    socialProviders: {
+      google: {
+        clientId: process.env.GOOGLE_CLIENT_ID as string,
+        clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+      },
     },
     plugins: [
       // The Convex plugin is required

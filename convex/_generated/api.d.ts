@@ -14,7 +14,7 @@ import type * as http from "../http.js";
 import type {
   ApiFromModules,
   FilterApi,
-  FunctionReference
+  FunctionReference,
 } from "convex/server";
 
 /**
