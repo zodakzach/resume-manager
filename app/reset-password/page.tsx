@@ -7,7 +7,7 @@ import {
   CardHeader,
   CardTitle,
   CardDescription,
-  CardFooter,
+  CardFooter
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -36,7 +36,7 @@ export default function ResetPassword() {
     await authClient.resetPassword(
       {
         token,
-        newPassword: password,
+        newPassword: password
       },
       {
         onRequest: () => {
@@ -49,15 +49,15 @@ export default function ResetPassword() {
         onError: (ctx) => {
           setLoading(false);
           alert(ctx.error.message);
-        },
-      },
+        }
+      }
     );
   };
 
   if (!token) {
     return (
-      <div className="min-h-screen w-full flex items-center justify-center p-4">
-        <Card className="max-w-md w-full">
+      <div className="flex min-h-screen w-full items-center justify-center p-4">
+        <Card className="w-full max-w-md">
           <CardHeader className="space-y-2">
             <CardTitle className="text-lg md:text-xl">Invalid Link</CardTitle>
             <CardDescription className="text-xs md:text-sm">
@@ -66,7 +66,7 @@ export default function ResetPassword() {
             </CardDescription>
           </CardHeader>
           <CardFooter>
-            <div className="flex justify-center w-full border-t py-4">
+            <div className="flex w-full justify-center border-t py-4">
               <p className="text-center text-xs text-neutral-500">
                 Powered by{" "}
                 <a
@@ -85,8 +85,8 @@ export default function ResetPassword() {
   }
 
   return (
-    <div className="min-h-screen w-full flex items-center justify-center p-4">
-      <Card className="max-w-md w-full">
+    <div className="flex min-h-screen w-full items-center justify-center p-4">
+      <Card className="w-full max-w-md">
         <CardHeader>
           <CardTitle className="text-lg md:text-xl">Reset Password</CardTitle>
           <CardDescription className="text-xs md:text-sm">
@@ -129,7 +129,7 @@ export default function ResetPassword() {
           </form>
         </CardContent>
         <CardFooter>
-          <div className="flex justify-center w-full border-t py-4">
+          <div className="flex w-full justify-center border-t py-4">
             <p className="text-center text-xs text-neutral-500">
               Powered by{" "}
               <a

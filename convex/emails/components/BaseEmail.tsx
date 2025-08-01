@@ -6,7 +6,7 @@ import {
   Link,
   Text,
   Img,
-  Preview,
+  Preview
 } from "@react-email/components";
 import React from "react";
 
@@ -22,12 +22,12 @@ export interface BaseEmailProps {
 
 export const styles = {
   main: {
-    backgroundColor: "#ffffff",
+    backgroundColor: "#ffffff"
   },
   container: {
     paddingLeft: "12px",
     paddingRight: "12px",
-    margin: "0 auto",
+    margin: "0 auto"
   },
   h1: {
     color: "#333",
@@ -36,21 +36,21 @@ export const styles = {
     fontSize: "24px",
     fontWeight: "bold",
     margin: "40px 0",
-    padding: "0",
+    padding: "0"
   },
   link: {
     color: "#2754C5",
     fontFamily:
       "-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif",
     fontSize: "14px",
-    textDecoration: "underline",
+    textDecoration: "underline"
   },
   text: {
     color: "#333",
     fontFamily:
       "-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif",
     fontSize: "14px",
-    margin: "24px 0",
+    margin: "24px 0"
   },
   footer: {
     color: "#898989",
@@ -59,7 +59,7 @@ export const styles = {
     fontSize: "12px",
     lineHeight: "22px",
     marginTop: "12px",
-    marginBottom: "24px",
+    marginBottom: "24px"
   },
   code: {
     display: "inline-block",
@@ -68,8 +68,8 @@ export const styles = {
     backgroundColor: "#f4f4f4",
     borderRadius: "5px",
     border: "1px solid #eee",
-    color: "#333",
-  },
+    color: "#333"
+  }
 };
 
 export function BaseEmail({
@@ -79,7 +79,7 @@ export function BaseEmail({
   footerText,
   brandName = "Better Auth",
   brandTagline = "Simple, secure authentication for your applications",
-  brandLogoUrl,
+  brandLogoUrl
 }: BaseEmailProps) {
   return (
     <Html>

@@ -12,7 +12,7 @@ export default function VerifyEmail({
   url,
   brandName,
   brandTagline,
-  brandLogoUrl,
+  brandLogoUrl
 }: VerifyEmailProps) {
   return (
     <BaseEmail
@@ -28,7 +28,7 @@ export default function VerifyEmail({
         style={{
           ...styles.link,
           display: "block",
-          marginBottom: "16px",
+          marginBottom: "16px"
         }}
       >
         Click here to verify your email address
@@ -38,7 +38,7 @@ export default function VerifyEmail({
           ...styles.text,
           color: "#ababab",
           marginTop: "14px",
-          marginBottom: "16px",
+          marginBottom: "16px"
         }}
       >
         If you didn&apos;t create an account, you can safely ignore this email.

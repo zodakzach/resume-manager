@@ -12,7 +12,7 @@ export default function ResetPasswordEmail({
   url,
   brandName,
   brandTagline,
-  brandLogoUrl,
+  brandLogoUrl
 }: ResetPasswordEmailProps) {
   return (
     <BaseEmail
@@ -28,7 +28,7 @@ export default function ResetPasswordEmail({
         style={{
           ...styles.link,
           display: "block",
-          marginBottom: "16px",
+          marginBottom: "16px"
         }}
       >
         Click here to reset your password
@@ -38,7 +38,7 @@ export default function ResetPasswordEmail({
           ...styles.text,
           color: "#ababab",
           marginTop: "14px",
-          marginBottom: "16px",
+          marginBottom: "16px"
         }}
       >
         If you didn&apos;t request a password reset, you can safely ignore this

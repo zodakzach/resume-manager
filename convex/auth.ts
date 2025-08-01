@@ -29,7 +29,7 @@ export const {
     // Example: copy the user's email to the application users table.
     // We'll use onUpdateUser to keep it synced.
     const userId = await ctx.db.insert("users", {
-      email: user.email,
+      email: user.email
     });
 
     // This function must return the user id.
@@ -42,9 +42,9 @@ export const {
     // Keep the user's email synced
     const userId = user.userId as Id<"users">;
     await ctx.db.patch(userId, {
-      email: user.email,
+      email: user.email
     });
-  },
+  }
 });
 
 // Example function for getting the current user

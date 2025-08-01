@@ -12,7 +12,7 @@ export default function MagicLinkEmail({
   url,
   brandName,
   brandTagline,
-  brandLogoUrl,
+  brandLogoUrl
 }: MagicLinkEmailProps) {
   return (
     <BaseEmail
@@ -28,7 +28,7 @@ export default function MagicLinkEmail({
         style={{
           ...styles.link,
           display: "block",
-          marginBottom: "16px",
+          marginBottom: "16px"
         }}
       >
         Click here to sign in with this magic link
@@ -38,7 +38,7 @@ export default function MagicLinkEmail({
           ...styles.text,
           color: "#ababab",
           marginTop: "14px",
-          marginBottom: "16px",
+          marginBottom: "16px"
         }}
       >
         If you didn&apos;t try to sign in, you can safely ignore this email.

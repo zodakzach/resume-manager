@@ -7,7 +7,7 @@ import {
   CardHeader,
   CardTitle,
   CardDescription,
-  CardFooter,
+  CardFooter
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -25,7 +25,7 @@ export default function SignIn() {
   const [otpLoading, setOtpLoading] = useState(false);
   const [forgotLoading, setForgotLoading] = useState(false);
   const [signInMethod, setSignInMethod] = useState<"password" | "passwordless">(
-    "passwordless",
+    "passwordless"
   );
   const [otpSent, setOtpSent] = useState(false);
 
@@ -33,7 +33,7 @@ export default function SignIn() {
     const { data, error } = await authClient.signIn.email(
       {
         email,
-        password,
+        password
       },
       {
         onRequest: () => {
@@ -50,8 +50,8 @@ export default function SignIn() {
         onError: (ctx) => {
           setOtpLoading(false);
           alert(ctx.error.message);
-        },
-      },
+        }
+      }
     );
 
     console.log({ data, error });
@@ -62,7 +62,7 @@ export default function SignIn() {
     try {
       await authClient.forgetPassword({
         email,
-        redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/reset-password`,
+        redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/reset-password`
       });
       alert("Check your email for the reset password link!");
     } catch {
@@ -75,7 +75,7 @@ export default function SignIn() {
   const handleMagicLinkSignIn = async () => {
     await authClient.signIn.magicLink(
       {
-        email,
+        email
       },
       {
         onRequest: () => {
@@ -88,15 +88,15 @@ export default function SignIn() {
         onError: (ctx) => {
           setMagicLinkLoading(false);
           alert(ctx.error.message);
-        },
-      },
+        }
+      }
     );
   };
 
   const handleGithubSignIn = async () => {
     await authClient.signIn.social(
       {
-        provider: "github",
+        provider: "github"
       },
       {
         onRequest: () => {
@@ -105,15 +105,15 @@ export default function SignIn() {
         onResponse: () => setOtpLoading(false),
         onError: (ctx) => {
           alert(ctx.error.message);
-        },
-      },
+        }
+      }
     );
   };
 
   const handleGoogleSignIn = async () => {
     await authClient.signIn.social(
       {
-        provider: "google",
+        provider: "google"
       },
       {
         onRequest: () => {
@@ -125,8 +125,8 @@ export default function SignIn() {
         onError: (ctx) => {
           setOtpLoading(false);
           alert(ctx.error.message);
-        },
-      },
+        }
+      }
     );
   };
 
@@ -135,7 +135,7 @@ export default function SignIn() {
       await authClient.emailOtp.sendVerificationOtp(
         {
           email,
-          type: "sign-in",
+          type: "sign-in"
         },
         {
           onRequest: () => {
@@ -148,14 +148,14 @@ export default function SignIn() {
           onError: (ctx) => {
             setOtpLoading(false);
             alert(ctx.error.message);
-          },
-        },
+          }
+        }
       );
     } else {
       await authClient.signIn.emailOtp(
         {
           email,
-          otp,
+          otp
         },
         {
           onRequest: () => {
@@ -168,8 +168,8 @@ export default function SignIn() {
           onError: (ctx) => {
             setOtpLoading(false);
             alert(ctx.error.message);
-          },
-        },
+          }
+        }
       );
     }
   };
@@ -221,7 +221,7 @@ export default function SignIn() {
                   disabled={forgotLoading || !email}
                 >
                   {forgotLoading ? (
-                    <Loader2 size={14} className="animate-spin mr-1" />
+                    <Loader2 size={14} className="mr-1 animate-spin" />
                   ) : null}
                   Forgot your password?
                 </Button>
@@ -306,7 +306,7 @@ export default function SignIn() {
               className="text-sm"
               onClick={() => {
                 setSignInMethod(
-                  signInMethod === "password" ? "passwordless" : "password",
+                  signInMethod === "password" ? "passwordless" : "password"
                 );
                 setPassword("");
                 setOtp("");
@@ -386,7 +386,7 @@ export default function SignIn() {
         </form>
       </CardContent>
       <CardFooter>
-        <div className="flex justify-center w-full border-t py-4">
+        <div className="flex w-full justify-center border-t py-4">
           <p className="text-center text-xs text-neutral-500">
             Powered by{" "}
             <a

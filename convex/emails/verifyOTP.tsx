@@ -12,7 +12,7 @@ export default function VerifyOTP({
   code,
   brandName,
   brandTagline,
-  brandLogoUrl,
+  brandLogoUrl
 }: VerifyOTPProps) {
   return (
     <BaseEmail
@@ -31,7 +31,7 @@ export default function VerifyOTP({
           ...styles.text,
           color: "#ababab",
           marginTop: "14px",
-          marginBottom: "16px",
+          marginBottom: "16px"
         }}
       >
         If you didn&apos;t create an account, you can safely ignore this email.

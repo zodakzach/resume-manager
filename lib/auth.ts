@@ -6,7 +6,7 @@ import {
   sendMagicLink,
   sendOTPVerification,
   sendEmailVerification,
-  sendResetPassword,
+  sendResetPassword
 } from "../convex/email";
 import { betterAuthComponent } from "../convex/auth";
 import { requireMutationCtx } from "@convex-dev/better-auth/utils";
@@ -18,20 +18,21 @@ const createOptions = (ctx: GenericCtx) =>
   ({
     appName: "Resume Manager",
     baseURL: siteUrl,
+    trustedOrigins: [siteUrl],
     database: convexAdapter(ctx, betterAuthComponent),
     account: {
       accountLinking: {
         enabled: true,
-        allowDifferentEmails: true,
-      },
+        allowDifferentEmails: true
+      }
     },
     emailVerification: {
       sendVerificationEmail: async ({ user, url }) => {
         await sendEmailVerification(requireMutationCtx(ctx), {
           to: user.email,
-          url,
+          url
         });
-      },
+      }
     },
     emailAndPassword: {
       enabled: true,
@@ -39,26 +40,26 @@ const createOptions = (ctx: GenericCtx) =>
       sendResetPassword: async ({ user, url }) => {
         await sendResetPassword(requireMutationCtx(ctx), {
           to: user.email,
-          url,
+          url
         });
-      },
+      }
     },
     socialProviders: {
       github: {
         clientId: process.env.GITHUB_CLIENT_ID as string,
-        clientSecret: process.env.GITHUB_CLIENT_SECRET as string,
+        clientSecret: process.env.GITHUB_CLIENT_SECRET as string
       },
       google: {
         clientId: process.env.GOOGLE_CLIENT_ID as string,
         clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
         accessType: "offline",
-        prompt: "select_account+consent",
-      },
+        prompt: "select_account+consent"
+      }
     },
     user: {
       deleteUser: {
-        enabled: true,
-      },
+        enabled: true
+      }
     },
     plugins: [
       twoFactor(),
@@ -66,19 +67,19 @@ const createOptions = (ctx: GenericCtx) =>
         sendMagicLink: async ({ email, url }) => {
           await sendMagicLink(requireMutationCtx(ctx), {
             to: email,
-            url,
+            url
           });
-        },
+        }
       }),
       emailOTP({
-        async sendVerificationOTP({ email, otp, type}) {
+        async sendVerificationOTP({ email, otp, type }) {
           await sendOTPVerification(requireMutationCtx(ctx), {
             to: email,
-            code: otp,
+            code: otp
           });
-        },
-      }),
-    ],
+        }
+      })
+    ]
   }) satisfies BetterAuthOptions;
 
 export const createAuth = (ctx: GenericCtx) => {
@@ -91,7 +92,7 @@ export const createAuth = (ctx: GenericCtx) => {
       // for plugins that customize the user or session schema.
       // See "Some caveats":
       // https://www.better-auth.com/docs/concepts/session-management#customizing-session-response
-      convex({ options }),
-    ],
+      convex({ options })
+    ]
   });
 };

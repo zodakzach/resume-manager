@@ -6,7 +6,7 @@ import {
   CardContent,
   CardHeader,
   CardTitle,
-  CardDescription,
+  CardDescription
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -39,8 +39,8 @@ export default function TwoFactorVerification() {
           onSuccess: () => {
             setLoading(false);
             router.push("/");
-          },
-        },
+          }
+        }
       });
     } catch (error) {
       console.log("error", error);
@@ -67,7 +67,7 @@ export default function TwoFactorVerification() {
       setLoading(true);
       await authClient.twoFactor.verifyOtp({
         code,
-        trustDevice,
+        trustDevice
       });
       // Redirect will happen automatically on success
     } catch {
@@ -81,7 +81,7 @@ export default function TwoFactorVerification() {
     try {
       setLoading(true);
       await authClient.twoFactor.verifyBackupCode({
-        code,
+        code
       });
       // Redirect will happen automatically on success
     } catch {
@@ -191,7 +191,7 @@ export default function TwoFactorVerification() {
               />
               <label
                 htmlFor="trust"
-                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                className="text-sm leading-none font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
               >
                 Trust this device for 60 days
               </label>
