@@ -163,7 +163,7 @@ export default function SignIn() {
           },
           onSuccess: () => {
             setOtpLoading(false);
-            router.push("/dashboard/client-only");
+            router.push("/dashboard");
           },
           onError: (ctx) => {
             setOtpLoading(false);
