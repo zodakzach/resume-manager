@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/card";
 import { Loader2 } from "lucide-react";
 import { authClient } from "@/lib/auth-client";
+import { toast } from "sonner";
 
 export default function SignIn() {
   const [githubLoading, setGithubLoading] = useState(false);
@@ -26,13 +27,14 @@ export default function SignIn() {
           onResponse: () => setGithubLoading(false),
           onError: (ctx) => {
             setGithubLoading(false);
-            alert(ctx.error.message);
+            toast.error(ctx.error.message);
           }
         }
       );
     } catch (e) {
       setGithubLoading(false);
       console.error(e);
+      toast.error("An unexpected error occurred. Please try again.");
     }
   };
 
@@ -46,13 +48,14 @@ export default function SignIn() {
           onSuccess: () => setGoogleLoading(false),
           onError: (ctx) => {
             setGoogleLoading(false);
-            alert(ctx.error.message);
+            toast.error(ctx.error.message);
           }
         }
       );
     } catch (e) {
       setGoogleLoading(false);
       console.error(e);
+      toast.error("An unexpected error occurred. Please try again.");
     }
   };
 
