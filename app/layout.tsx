@@ -4,6 +4,7 @@ import "./globals.css";
 import { ConvexClientProvider } from "@/app/ConvexClientProvider";
 import { ThemeProvider } from "@/components/theme-provider";
 import { cn } from "@/lib/utils";
+import { Toaster } from "@/components/ui/sonner";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -40,6 +41,8 @@ export default function RootLayout({
           "antialiased"
         )}
       >
+        {/* Sonner Toaster setup: max 3 toasts, positioned top-right */}
+        <Toaster position="top-right" visibleToasts={3} />
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

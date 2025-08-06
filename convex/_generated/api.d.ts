@@ -21,7 +21,7 @@ import type * as utils from "../utils.js";
 import type {
   ApiFromModules,
   FilterApi,
-  FunctionReference,
+  FunctionReference
 } from "convex/server";
 
 /**
