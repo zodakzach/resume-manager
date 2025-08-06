@@ -410,8 +410,8 @@ export default function ResumesPage() {
                           <AlertDialogTitle>Are you sure?</AlertDialogTitle>
                           <AlertDialogDescription>
                             This action cannot be undone. This will permanently
-                            delete your resume "{resume.name}" and remove it
-                            from our servers.
+                            delete your resume &quot;{resume.name}&quot; and
+                            remove it from our servers.
                           </AlertDialogDescription>
                         </AlertDialogHeader>
                         <AlertDialogFooter>

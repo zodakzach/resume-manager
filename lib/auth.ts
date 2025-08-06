@@ -72,7 +72,7 @@ const createOptions = (ctx: GenericCtx) =>
         }
       }),
       emailOTP({
-        async sendVerificationOTP({ email, otp, type }) {
+        async sendVerificationOTP({ email, otp }) {
           await sendOTPVerification(requireMutationCtx(ctx), {
             to: email,
             code: otp

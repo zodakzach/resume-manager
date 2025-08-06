@@ -4,7 +4,6 @@ import { useState } from "react";
 import {
   Save,
   Key,
-  Bell,
   Palette,
   Download,
   Trash2,
@@ -51,11 +50,6 @@ import {
 
 export default function SettingsPage() {
   const [showApiKey, setShowApiKey] = useState(false);
-  const [notifications, setNotifications] = useState({
-    email: true,
-    push: false,
-    marketing: false
-  });
   const [theme, setTheme] = useState("tangerine");
   const [defaultTemplate, setDefaultTemplate] = useState("modern");
 
@@ -271,7 +265,7 @@ export default function SettingsPage() {
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="letter">
-                      US Letter (8.5" × 11")
+                      US Letter (8.5&quot; &times; 11&quot;)
                     </SelectItem>
                     <SelectItem value="a4">A4 (210 × 297 mm)</SelectItem>
                   </SelectContent>

@@ -274,7 +274,7 @@ export default function AnalyzerPage() {
                   </div>
                   <h3 className="mb-2 font-medium">2. Add Job Description</h3>
                   <p className="text-muted-foreground text-sm">
-                    Paste the job posting you're applying for
+                    Paste the job posting you&apos;re applying for
                   </p>
                 </div>
                 <div className="text-center">
