@@ -2,8 +2,8 @@
 
 import type React from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { Brain, FileText, Settings, User, LogOut } from "lucide-react";
+import { usePathname, useRouter } from "next/navigation";
+import { Brain, FileText, Settings, User as UserIcon } from "lucide-react";
 import { Suspense } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -29,32 +29,35 @@ import {
   SidebarTrigger
 } from "@/components/ui/sidebar";
 import { ModeToggle } from "@/components/theme-toggle";
+import { authClient } from "@/lib/auth-client";
+import { useQuery } from "convex/react";
+import { SignOutButton } from "@/components/sign-out";
+import { api } from "@/convex/_generated/api";
 
 const navigation = [
-  {
-    name: "My Information",
-    href: "/dashboard",
-    icon: User
-  },
-  {
-    name: "Resumes",
-    href: "/dashboard/resumes",
-    icon: FileText
-  },
-  {
-    name: "Analyzer",
-    href: "/dashboard/analyzer",
-    icon: Brain
-  },
-  {
-    name: "Settings",
-    href: "/dashboard/settings",
-    icon: Settings
-  }
+  { name: "My Information", href: "/dashboard", icon: UserIcon },
+  { name: "Resumes", href: "/dashboard/resumes", icon: FileText },
+  { name: "Analyzer", href: "/dashboard/analyzer", icon: Brain },
+  { name: "Settings", href: "/dashboard/settings", icon: Settings }
 ];
 
 function AppSidebar() {
   const pathname = usePathname();
+  const router = useRouter();
+
+  // Fetch merged auth + app-level user record
+  const user = useQuery(api.auth.getCurrentUser);
+  if (user === undefined) return null; // Suspense will handle loading
+  if (user === null) return null; // Not signed in
+
+  const { name, email, image } = user;
+  const avatarSrc = image;
+  const displayName = name;
+
+  const handleSignOut = async () => {
+    await authClient.signOut();
+    router.push("/sign-in");
+  };
 
   return (
     <Sidebar variant="inset">
@@ -78,7 +81,7 @@ function AppSidebar() {
               {navigation.map((item) => (
                 <SidebarMenuItem key={item.name}>
                   <SidebarMenuButton asChild isActive={pathname === item.href}>
-                    <Link href={item.href}>
+                    <Link href={item.href} className="flex items-center gap-2">
                       <item.icon className="h-4 w-4" />
                       <span>{item.name}</span>
                     </Link>
@@ -99,15 +102,19 @@ function AppSidebar() {
                   className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
                 >
                   <Avatar className="h-8 w-8 rounded-lg">
-                    <AvatarImage
-                      src="/placeholder.svg?height=32&width=32"
-                      alt="John Doe"
-                    />
-                    <AvatarFallback className="rounded-lg">JD</AvatarFallback>
+                    {avatarSrc ? (
+                      <AvatarImage src={avatarSrc} alt={displayName} />
+                    ) : (
+                      <AvatarFallback className="rounded-lg">
+                        {displayName.charAt(0)}
+                      </AvatarFallback>
+                    )}
                   </Avatar>
                   <div className="grid flex-1 text-left text-sm leading-tight">
-                    <span className="truncate font-semibold">John Doe</span>
-                    <span className="truncate text-xs">john@example.com</span>
+                    <span className="truncate font-semibold">
+                      {displayName}
+                    </span>
+                    <span className="truncate text-xs">{email}</span>
                   </div>
                 </SidebarMenuButton>
               </DropdownMenuTrigger>
@@ -120,22 +127,25 @@ function AppSidebar() {
                 <DropdownMenuLabel className="p-0 font-normal">
                   <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                     <Avatar className="h-8 w-8 rounded-lg">
-                      <AvatarImage
-                        src="/placeholder.svg?height=32&width=32"
-                        alt="John Doe"
-                      />
-                      <AvatarFallback className="rounded-lg">JD</AvatarFallback>
+                      {avatarSrc ? (
+                        <AvatarImage src={avatarSrc} alt={displayName} />
+                      ) : (
+                        <AvatarFallback className="rounded-lg">
+                          {displayName.charAt(0)}
+                        </AvatarFallback>
+                      )}
                     </Avatar>
                     <div className="grid flex-1 text-left text-sm leading-tight">
-                      <span className="truncate font-semibold">John Doe</span>
-                      <span className="truncate text-xs">john@example.com</span>
+                      <span className="truncate font-semibold">
+                        {displayName}
+                      </span>
+                      <span className="truncate text-xs">{email}</span>
                     </div>
                   </div>
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem>
-                  <LogOut className="mr-2 h-4 w-4" />
-                  Sign out
+                  <SignOutButton onClick={handleSignOut} />
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>

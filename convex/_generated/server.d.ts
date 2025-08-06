@@ -19,7 +19,7 @@ import {
   GenericQueryCtx,
   GenericDatabaseReader,
   GenericDatabaseWriter,
-  FunctionReference
+  FunctionReference,
 } from "convex/server";
 import type { DataModel } from "./dataModel.js";
 
