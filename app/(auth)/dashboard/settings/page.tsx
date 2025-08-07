@@ -85,7 +85,16 @@ export default function SettingsPage() {
   };
 
   const handleDeleteAccount = async () => {
-    await authClient.deleteUser();
+    // 1) Call deleteUser() and unpack its result
+    const { data, error } = await authClient.deleteUser();
+
+    // 2) If there's an error, log everything we know and show a failure toast
+    if (error) {
+      toast.error("Knowm Issue deleting account. Please try again later.");
+      return;
+    }
+
+    // 3) No error → real success
     toast.success("Account deleted");
   };
 
@@ -95,7 +104,7 @@ export default function SettingsPage() {
   }
 
   return (
-    <div className="mx-auto max-w-4xl flex-1 space-y-4 p-4 sm:space-y-6 sm:p-6">
+    <div className="mx-auto flex-1 space-y-4 p-4 sm:space-y-6 sm:p-6">
       {/* Header */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div className="space-y-1">
@@ -161,6 +170,7 @@ export default function SettingsPage() {
                 <Input
                   id="name"
                   value={name}
+                  autoComplete="off"
                   onChange={(e) => setName(e.target.value)}
                   className="w-full"
                   placeholder="Enter your full name"
@@ -201,6 +211,7 @@ export default function SettingsPage() {
                     <Input
                       id="apiKey"
                       type={showApiKey ? "text" : "password"}
+                      autoComplete="off"
                       value={apiKey}
                       onChange={(e) => setApiKey(e.target.value)}
                       placeholder="sk-..."

@@ -45,14 +45,13 @@ function AppSidebar() {
   const pathname = usePathname();
   const router = useRouter();
 
-  // Fetch merged auth + app-level user record
   const user = useQuery(api.auth.getCurrentUser);
-  if (user === undefined) return null; // Suspense will handle loading
-  if (user === null) return null; // Not signed in
+  if (user === undefined) return null;
+  if (user === null) return null;
 
   const { name, email, image } = user;
   const avatarSrc = image;
-  const displayName = name;
+  const displayName = name || "User";
 
   const handleSignOut = async () => {
     await authClient.signOut();
@@ -60,7 +59,7 @@ function AppSidebar() {
   };
 
   return (
-    <Sidebar variant="inset">
+    <Sidebar variant="inset" className="max-sm:w-[82%]">
       <SidebarHeader>
         <div className="flex items-center gap-2 px-4 py-2">
           <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-orange-500 font-bold text-white">
@@ -68,9 +67,6 @@ function AppSidebar() {
           </div>
           <div className="grid flex-1 text-left text-sm leading-tight">
             <span className="truncate font-semibold">Resume Manager</span>
-            <span className="text-muted-foreground truncate text-xs">
-              Professional Edition
-            </span>
           </div>
         </div>
       </SidebarHeader>
@@ -78,16 +74,22 @@ function AppSidebar() {
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
-              {navigation.map((item) => (
-                <SidebarMenuItem key={item.name}>
-                  <SidebarMenuButton asChild isActive={pathname === item.href}>
-                    <Link href={item.href} className="flex items-center gap-2">
-                      <item.icon className="h-4 w-4" />
-                      <span>{item.name}</span>
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
+              {navigation.map((item) => {
+                const isActive = pathname === item.href;
+                return (
+                  <SidebarMenuItem key={item.name}>
+                    <SidebarMenuButton asChild isActive={isActive}>
+                      <Link
+                        href={item.href}
+                        className="flex items-center gap-2"
+                      >
+                        <item.icon className="h-4 w-4" />
+                        <span className="max-sm:text-sm">{item.name}</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                );
+              })}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
@@ -100,6 +102,7 @@ function AppSidebar() {
                 <SidebarMenuButton
                   size="lg"
                   className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+                  aria-label="User menu"
                 >
                   <Avatar className="h-8 w-8 rounded-lg">
                     {avatarSrc ? (
@@ -166,13 +169,17 @@ export default function DashboardLayout({
       <Suspense fallback={null}>
         <AppSidebar />
         <SidebarInset>
-          <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4">
-            <SidebarTrigger className="-ml-1" />
+          <header className="bg-background/80 sticky top-0 z-30 flex h-14 shrink-0 items-center gap-2 rounded-xl border-b px-3 backdrop-blur sm:h-16 sm:px-4">
+            <SidebarTrigger className="-ml-1" aria-label="Open sidebar" />
             <div className="flex flex-1 items-center gap-2">
               <ModeToggle />
             </div>
           </header>
-          <main className="flex-1 overflow-auto">{children}</main>
+          <main className="flex-1 overflow-auto">
+            <div className="mx-auto w-full max-w-7xl p-3 sm:p-4 md:p-6">
+              {children}
+            </div>
+          </main>
         </SidebarInset>
       </Suspense>
     </SidebarProvider>

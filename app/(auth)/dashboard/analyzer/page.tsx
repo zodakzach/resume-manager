@@ -36,7 +36,6 @@ import { Separator } from "@/components/ui/separator";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-// Mock analysis results
 const mockAnalysisResults = {
   overallScore: 78,
   matchPercentage: 82,
@@ -119,8 +118,7 @@ export default function AnalyzerPage() {
     if (!selectedResume || !jobDescription) return;
 
     setIsAnalyzing(true);
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 3000));
+    await new Promise((resolve) => setTimeout(resolve, 1200));
     setIsAnalyzing(false);
     setHasResults(true);
   };
@@ -153,8 +151,7 @@ export default function AnalyzerPage() {
 
   return (
     <div className="flex-1 space-y-6 p-6">
-      {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">
             AI Resume Analyzer
@@ -164,7 +161,7 @@ export default function AnalyzerPage() {
           </p>
         </div>
         {hasResults && (
-          <Button variant="outline" className="bg-transparent">
+          <Button variant="outline" className="w-full bg-transparent sm:w-auto">
             <Download className="mr-2 h-4 w-4" />
             Export Report
           </Button>
@@ -172,8 +169,7 @@ export default function AnalyzerPage() {
       </div>
 
       {!hasResults ? (
-        /* Analysis Input Form */
-        <div className="mx-auto max-w-4xl space-y-6">
+        <div className="mx-auto w-full space-y-6">
           <Card>
             <CardHeader className="text-center">
               <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-orange-100">
@@ -186,14 +182,13 @@ export default function AnalyzerPage() {
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
-              {/* Resume Selection */}
               <div className="space-y-2">
                 <Label htmlFor="resume">Select Resume</Label>
                 <Select
                   value={selectedResume}
                   onValueChange={setSelectedResume}
                 >
-                  <SelectTrigger>
+                  <SelectTrigger aria-label="Choose resume to analyze">
                     <SelectValue placeholder="Choose a resume to analyze" />
                   </SelectTrigger>
                   <SelectContent>
@@ -212,7 +207,6 @@ export default function AnalyzerPage() {
 
               <Separator />
 
-              {/* Job Description Input */}
               <div className="space-y-2">
                 <Label htmlFor="jobDescription">Job Description</Label>
                 <Textarea
@@ -228,13 +222,13 @@ export default function AnalyzerPage() {
                 </p>
               </div>
 
-              {/* Analyze Button */}
-              <div className="flex justify-center pt-4">
+              <div className="sticky bottom-3 z-10 flex justify-center pt-2">
                 <Button
                   onClick={handleAnalyze}
                   disabled={!selectedResume || !jobDescription || isAnalyzing}
-                  className="bg-orange-500 px-8 hover:bg-orange-600"
+                  className="w-full bg-orange-500 px-8 hover:bg-orange-600 sm:w-auto"
                   size="lg"
+                  aria-label="Analyze resume"
                 >
                   {isAnalyzing ? (
                     <>
@@ -252,13 +246,12 @@ export default function AnalyzerPage() {
             </CardContent>
           </Card>
 
-          {/* How it Works */}
           <Card>
             <CardHeader>
               <CardTitle>How It Works</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="grid gap-6 md:grid-cols-3">
+              <div className="grid gap-6 sm:grid-cols-3">
                 <div className="text-center">
                   <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-blue-100">
                     <FileText className="h-6 w-6 text-blue-600" />
@@ -291,10 +284,8 @@ export default function AnalyzerPage() {
           </Card>
         </div>
       ) : (
-        /* Analysis Results */
         <div className="space-y-6">
-          {/* Overall Score */}
-          <div className="grid gap-4 md:grid-cols-3">
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">
@@ -347,16 +338,14 @@ export default function AnalyzerPage() {
             </Card>
           </div>
 
-          {/* Analysis Tabs */}
           <Tabs value={activeTab} onValueChange={setActiveTab}>
-            <TabsList className="grid w-full grid-cols-4">
+            <TabsList className="grid w-full grid-cols-2 gap-1 overflow-x-auto sm:grid-cols-4">
               <TabsTrigger value="overview">Overview</TabsTrigger>
               <TabsTrigger value="suggestions">Suggestions</TabsTrigger>
               <TabsTrigger value="keywords">Keywords</TabsTrigger>
               <TabsTrigger value="sections">Sections</TabsTrigger>
             </TabsList>
 
-            {/* Overview Tab */}
             <TabsContent value="overview" className="space-y-6">
               <Alert>
                 <CheckCircle className="h-4 w-4" />
@@ -367,7 +356,7 @@ export default function AnalyzerPage() {
                 </AlertDescription>
               </Alert>
 
-              <div className="grid gap-6 md:grid-cols-2">
+              <div className="grid gap-6 lg:grid-cols-2">
                 <Card>
                   <CardHeader>
                     <CardTitle>Top Priority Actions</CardTitle>
@@ -428,17 +417,16 @@ export default function AnalyzerPage() {
               </div>
             </TabsContent>
 
-            {/* Suggestions Tab */}
             <TabsContent value="suggestions" className="space-y-4">
               {mockAnalysisResults.suggestions.map((suggestion, index) => (
-                <Card key={index}>
+                <Card key={index} className="shadow-sm">
                   <CardContent className="pt-4">
                     <div className="flex items-start space-x-4">
                       <div className="flex-shrink-0">
                         {getPriorityIcon(suggestion.priority)}
                       </div>
                       <div className="flex-1">
-                        <div className="mb-2 flex items-center space-x-2">
+                        <div className="mb-2 flex flex-wrap items-center gap-2">
                           <h3 className="font-medium">{suggestion.title}</h3>
                           <Badge
                             className={getPriorityColor(suggestion.priority)}
@@ -461,9 +449,8 @@ export default function AnalyzerPage() {
               ))}
             </TabsContent>
 
-            {/* Keywords Tab */}
             <TabsContent value="keywords" className="space-y-6">
-              <div className="grid gap-6 md:grid-cols-3">
+              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                 <Card>
                   <CardHeader>
                     <CardTitle className="text-green-600">
@@ -542,7 +529,6 @@ export default function AnalyzerPage() {
               </div>
             </TabsContent>
 
-            {/* Sections Tab */}
             <TabsContent value="sections" className="space-y-4">
               {Object.entries(mockAnalysisResults.sectionAnalysis).map(
                 ([section, data]) => (
@@ -565,8 +551,7 @@ export default function AnalyzerPage() {
             </TabsContent>
           </Tabs>
 
-          {/* Action Buttons */}
-          <div className="flex justify-center space-x-4">
+          <div className="bg-background/80 sticky bottom-0 z-10 flex gap-3 border-t py-3 backdrop-blur sm:justify-center">
             <Button
               variant="outline"
               onClick={() => {
@@ -574,11 +559,11 @@ export default function AnalyzerPage() {
                 setJobDescription("");
                 setSelectedResume("");
               }}
-              className="bg-transparent"
+              className="w-full bg-transparent sm:w-auto"
             >
               Analyze Another Resume
             </Button>
-            <Button className="bg-orange-500 hover:bg-orange-600">
+            <Button className="w-full bg-orange-500 hover:bg-orange-600 sm:w-auto">
               Apply Suggestions to Resume
             </Button>
           </div>

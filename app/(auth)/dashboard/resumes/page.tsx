@@ -61,7 +61,6 @@ import {
   AlertDialogTrigger
 } from "@/components/ui/alert-dialog";
 
-// Mock data - in real app this would come from Convex
 const mockResumes = [
   {
     id: 1,
@@ -157,16 +156,16 @@ export default function ResumesPage() {
   };
 
   const filteredResumes = mockResumes.filter((resume) => {
+    const q = searchQuery.toLowerCase();
     const matchesSearch =
-      resume.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      resume.description.toLowerCase().includes(searchQuery.toLowerCase());
+      resume.name.toLowerCase().includes(q) ||
+      resume.description.toLowerCase().includes(q);
     const matchesFilter =
       filterStatus === "all" || resume.status.toLowerCase() === filterStatus;
     return matchesSearch && matchesFilter;
   });
 
   const handleCreateResume = () => {
-    // In real app, this would create a new resume in Convex
     console.log("Creating resume:", {
       newResumeName,
       newResumeDescription,
@@ -180,17 +179,18 @@ export default function ResumesPage() {
 
   return (
     <div className="flex-1 space-y-6 p-6">
-      {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">My Resumes</h1>
-          <p className="text-muted-foreground">
+          <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">
+            My Resumes
+          </h1>
+          <p className="text-muted-foreground text-sm sm:text-base">
             Manage and organize all your resume versions
           </p>
         </div>
         <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
           <DialogTrigger asChild>
-            <Button className="bg-orange-500 hover:bg-orange-600">
+            <Button className="w-full bg-orange-500 hover:bg-orange-600 sm:w-auto">
               <Plus className="mr-2 h-4 w-4" />
               Create New Resume
             </Button>
@@ -264,21 +264,21 @@ export default function ResumesPage() {
         </Dialog>
       </div>
 
-      {/* Search and Filter */}
-      <div className="flex items-center space-x-4">
-        <div className="relative max-w-md flex-1">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+        <div className="relative flex-1">
           <Search className="text-muted-foreground absolute top-2.5 left-2.5 h-4 w-4" />
           <Input
             placeholder="Search resumes..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="pl-8"
+            aria-label="Search resumes"
           />
         </div>
         <Select value={filterStatus} onValueChange={setFilterStatus}>
-          <SelectTrigger className="w-[180px]">
+          <SelectTrigger className="w-full sm:w-[180px]">
             <Filter className="mr-2 h-4 w-4" />
-            <SelectValue />
+            <SelectValue placeholder="All Resumes" />
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="all">All Resumes</SelectItem>
@@ -288,8 +288,7 @@ export default function ResumesPage() {
         </Select>
       </div>
 
-      {/* Stats */}
-      <div className="grid gap-4 md:grid-cols-4">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total Resumes</CardTitle>
@@ -338,18 +337,17 @@ export default function ResumesPage() {
         </Card>
       </div>
 
-      {/* Resumes Grid */}
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {filteredResumes.map((resume) => (
           <Card key={resume.id} className="transition-shadow hover:shadow-md">
             <CardHeader className="pb-3">
-              <div className="flex items-start justify-between">
-                <div className="flex items-center space-x-3">
-                  <div className="flex h-16 w-12 items-center justify-center rounded border bg-orange-100">
+              <div className="flex items-start justify-between gap-3">
+                <div className="flex items-center gap-3">
+                  <div className="flex h-12 w-12 items-center justify-center rounded border bg-orange-100">
                     <FileText className="h-6 w-6 text-orange-600" />
                   </div>
-                  <div className="min-w-0 flex-1">
-                    <CardTitle className="truncate text-lg">
+                  <div className="min-w-0">
+                    <CardTitle className="truncate text-base sm:text-lg">
                       {resume.name}
                     </CardTitle>
                     <CardDescription className="line-clamp-2 text-sm">
@@ -359,13 +357,18 @@ export default function ResumesPage() {
                 </div>
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" size="sm">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      aria-label="Open resume menu"
+                    >
                       <span className="sr-only">Open menu</span>
                       <svg
                         className="h-4 w-4"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
+                        aria-hidden="true"
                       >
                         <path
                           strokeLinecap="round"
@@ -427,13 +430,13 @@ export default function ResumesPage() {
               </div>
             </CardHeader>
             <CardContent className="pt-0">
-              <div className="text-muted-foreground mb-3 flex items-center justify-between text-sm">
-                <div className="flex items-center space-x-4">
-                  <div className="flex items-center space-x-1">
+              <div className="text-muted-foreground mb-3 flex flex-wrap items-center justify-between gap-2 text-sm">
+                <div className="flex items-center gap-4">
+                  <div className="flex items-center gap-1">
                     <Template className="h-3 w-3" />
                     <span>{resume.template}</span>
                   </div>
-                  <div className="flex items-center space-x-1">
+                  <div className="flex items-center gap-1">
                     <span>
                       {resume.pages} page{resume.pages > 1 ? "s" : ""}
                     </span>
@@ -453,18 +456,18 @@ export default function ResumesPage() {
                 </Badge>
               </div>
 
-              <div className="text-muted-foreground mb-4 flex items-center justify-between text-xs">
-                <div className="flex items-center space-x-1">
+              <div className="text-muted-foreground mb-4 flex flex-wrap items-center justify-between gap-2 text-xs">
+                <div className="flex items-center gap-1">
                   <Calendar className="h-3 w-3" />
                   <span>Modified {formatDate(resume.lastModified)}</span>
                 </div>
-                <div className="flex items-center space-x-1">
+                <div className="flex items-center gap-1">
                   <Download className="h-3 w-3" />
                   <span>{resume.downloads} downloads</span>
                 </div>
               </div>
 
-              <div className="flex space-x-2">
+              <div className="flex gap-2">
                 <Button
                   size="sm"
                   className="flex-1 bg-orange-500 hover:bg-orange-600"
@@ -472,7 +475,11 @@ export default function ResumesPage() {
                   <Edit className="mr-1 h-3 w-3" />
                   Edit
                 </Button>
-                <Button variant="outline" size="sm" className="bg-transparent">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="flex-1 bg-transparent sm:flex-initial"
+                >
                   <Eye className="mr-1 h-3 w-3" />
                   Preview
                 </Button>
